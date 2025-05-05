@@ -11,7 +11,7 @@
 # use something like pre-commit run --from-ref origin/HEAD --to-ref HEAD
 repos:
   - repo: https://github.com/oxsecurity/megalinter
-    rev: v8.4.2 # Git tag specifying the hook, not mega-linter-runner, version
+    rev: v8.6.0 # Git tag specifying the hook, not mega-linter-runner, version
     hooks:
       - id: megalinter-full # Slower, more thorough
         stages:
@@ -39,15 +39,15 @@ repos:
       - id: end-of-file-fixer
       - id: check-shebang-scripts-are-executable
 
-  # Python security
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.3
-    hooks:
-      - id: bandit
+  # # Python security
+  # - repo: https://github.com/PyCQA/bandit
+  #   rev: 1.8.3
+  #   hooks:
+  #     - id: bandit
 
   # Git security
   - repo: https://github.com/gitguardian/gg-shield
-    rev: v1.37.0
+    rev: v1.39.0
     hooks:
       - id: ggshield
       # - id: ggshield-iac
