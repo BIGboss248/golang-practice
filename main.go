@@ -16,8 +16,9 @@ package main
 
 // import packages
 import (
-	"fmt"
 	"os"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -147,7 +148,7 @@ func main() {
 	xpath := "/html/body/main/div[1]/div[1]/div[1]/div/div[2]/div/h3[1]/span[2]/span[1]"
 	// Create currency list
 	currencies := []currency{}
-	var currencyMap = map[string]float32{}
+	var currencyMap = map[string]float64{}
 	USD := currency{
 		name:  "USD",
 		xpath: xpath,
@@ -187,18 +188,15 @@ func main() {
 				// Remove , from element.text
 				text := element.Text
 				// Remove comma from the text
-				textWithoutComma := ""
-				for _, r := range text {
-					if r != ',' {
-						textWithoutComma += string(r)
-					}
+				strings.ReplaceAll(text, ",", "")
+				// Convert to float
+				floatValue, err := strconv.ParseFloat(text, 64)
+				if err != nil {
+					log.Panic().Err(err).Msg("")
 				}
-				// Convert textWithoutComma to float32
-				var floatValue float32
-				fmt.Sscan(textWithoutComma, &floatValue)
 				currencyMap[value.name] = floatValue
 				log.Info().Msgf("Value of %s is %f", value.name, floatValue)
-			} // Code to be executed in the goroutine
+			}
 		}()
 
 		// Wait for the goroutine to finish
