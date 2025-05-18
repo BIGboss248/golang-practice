@@ -1,21 +1,10 @@
-//Pay attention in order to run this script first
-//you need to give this script a module name
-//the format is <prefix>/<descriptive-text>
-//we give this module a name with:
-//$ go mod init <prefix>/<descriptive-text>
-//after that we need to download the specified modules
-//and list them in go.mod go dose that automaticlly by
-//$ go mod tidy
-//finnaly we can run the program by
-//$ go run <gofile>
-//To generate a binary file
-//$ go build <gofile>
-
 // Package declaration
 package main
 
 // import packages
 import (
+	"fmt"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -50,6 +39,41 @@ const (
 	BgCyan    = "\033[46m"
 	BgWhite   = "\033[47m"
 )
+
+func HTTPHandler(w http.ResponseWriter, r *http.Request) {
+	HTTPServerStartTime := time.Now() // Record start time
+	logger, err := SetupLogger("app.log", zerolog.InfoLevel)
+	if err != nil {
+		panic(err)
+	}
+	logger.Info().Msg(FgCyan + "HTTPServer function started" + Reset)
+	defer func() {
+		HTTPServerDuration := time.Since(HTTPServerStartTime)
+		logger.Info().Msgf(FgCyan+"HTTPServer function ended. Execution time: %s"+Reset, HTTPServerDuration)
+	}()
+	//Code here
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+func HTTPServer(handler func(http.ResponseWriter, *http.Request), networkInterface string, path string) {
+	HTTPServerStartTime := time.Now() // Record start time
+	// defer keyword will execute a code when the function returns
+	logger, err := SetupLogger("app.log", zerolog.InfoLevel)
+	if err != nil {
+		panic(err)
+	}
+	logger.Info().Msg(FgCyan + "HTTPServer function started" + Reset)
+	defer func() {
+		HTTPServerDuration := time.Since(HTTPServerStartTime)
+		logger.Info().Msgf(FgCyan+"HTTPServer function ended. Execution time: %s"+Reset, HTTPServerDuration)
+	}()
+	//Code here
+	http.HandleFunc(path, handler)
+	httpErr := http.ListenAndServe(networkInterface, nil)
+	if httpErr != nil {
+		log.Err(httpErr).Msg("")
+	}
+}
+
 
 /*
 SetupLogger initializes zerolog to write to both console and a file.
@@ -90,7 +114,7 @@ func SetupLogger(logFilePath string, logLevel zerolog.Level) (zerolog.Logger, er
 	zerolog.TimeFieldFormat = time.RFC3339
 
 	// Create the logger
-	logger := zerolog.New(multi).With().Timestamp().Logger()
+	logger := zerolog.New(multi).With().Caller().Timestamp().Logger()
 
 	// Set as the global logger
 	log.Logger = logger
@@ -133,8 +157,8 @@ type currency struct {
 } // access members by currency.xpath
 // The function that will be executed
 func main() {
-	logger, err := SetupLogger("app.log", zerolog.InfoLevel)
 	startTime := time.Now() // Record start time
+	logger, err := SetupLogger("app.log", zerolog.InfoLevel)
 	if err != nil {
 		panic(err)
 	}
@@ -188,7 +212,7 @@ func main() {
 				// Remove , from element.text
 				text := element.Text
 				// Remove comma from the text
-				strings.ReplaceAll(text, ",", "")
+				text = strings.ReplaceAll(text, ",", "")
 				// Convert to float
 				floatValue, err := strconv.ParseFloat(text, 64)
 				if err != nil {
@@ -202,4 +226,6 @@ func main() {
 		// Wait for the goroutine to finish
 		wg.Wait() // Will block until the WaitGroup counter is 0
 	}
+	fmt.Println(currencyMap)
+	HTTPServer(HTTPHandler,":8080","/")
 }
