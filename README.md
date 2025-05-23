@@ -1,10 +1,25 @@
-# What is this repo
+# Golang practice
 
-a collection of all the tools and resources I've used to learn and work with vscode developing
-in an effort to automate the process of creating a repository with these tools included and to
-document them for future reference.  This is a work in progress and will be updated as I learn
-more descriptions are added in each file as comments but may be added here in future
+my simple repository to learn more about golang
 
-## Mermaid
+## gplgen
 
-You can add memaid to README.MD by installing bierner.markdown-mermaid extention
+The package to create production grade graphql server
+
+to start with it first get the package and run init
+
+```console
+go get github.com/99designs/gqlgen
+go run github.com/99designs/gqlgen init
+
+```
+
+This will generate files and code to create a graphql server using gplgen
+
+after that we modift graph\schema.graphqls to modify our schema and use the command bellow to generate go code and models
+
+```console
+
+go run github.com/99designs/gqlgen generate
+
+```
