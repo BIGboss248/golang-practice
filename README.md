@@ -20,6 +20,10 @@ after that we modift graph\schema.graphqls to modify our schema and use the comm
 
 ```console
 
+go get github.com/99designs/gqlgen
 go run github.com/99designs/gqlgen generate
 
 ```
+
+now that we generated our models and some code we need to implement out resolvers (function that will get the data querried from the client to return it to the client)
+The resolvers are in graph\schema.resolvers.go
