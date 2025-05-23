@@ -37,3 +37,35 @@ go run github.com/99designs/gqlgen generate
 now that we generated our models and some code we need to implement out resolvers (function that will get the data querried from the client to return it to the client)
 The resolvers are in graph\schema.resolvers.go
 
+## Cobra
+
+Cobra is a package to create a command line app using golang
+
+first we initialize our golang repository and install package
+
+```console
+
+go mod init github.com/{username}/{repo name}
+go install github.com/spf13/cobra-cli@latest
+
+```
+
+After that we initialize a cobra-cli repository
+
+```console
+
+cobra-cli init
+
+```
+
+now that we initialized our repository we can edit cmd\root.go to edit the description of what our cli tool works
+
+now we can add more commands using this command
+
+```console
+
+cobra-cli add {command name}
+
+```
+
+after we run this command a file is added in cmd directory
