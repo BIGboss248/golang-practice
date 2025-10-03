@@ -2,5 +2,19 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "bigboss248",
     "projectKey": "BIGboss248_golang-practice"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".checkov.yml": true,
+    ".devskim.json": true,
+    ".grype.yaml": true,
+    ".mega-linter.yml": true,
+    ".pre-commit-config.yaml": true,
+    "kics.config": true,
+    "LICENSE": true,
   }
 }
