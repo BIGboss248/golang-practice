@@ -13,7 +13,7 @@ import (
 
 // The function that will be executed
 func main() {
-	logger, err := clog.SetupLogger("app.log", zerolog.InfoLevel)
+	logger, err := clog.SetupLogger("app.log", zerolog.DebugLevel)
 	startTime := time.Now() // Record start time
 	if err != nil {
 		panic(err)
@@ -22,10 +22,6 @@ func main() {
 	defer func() {
 		logger.Debug().Str("FunctionName:", "main").TimeDiff("Duration (ms)", time.Now(), startTime).Msg("Main function ended.")
 	}()
-	os.Getenv("MONGO_INITDB_ROOT_USERNAME")
-	os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
-	os.Getenv("MONGO_HOST")
-	os.Getenv("MONGO_PORT")
 	portInt, err := strconv.Atoi(os.Getenv("MONGO_PORT"))
 	if err != nil {
 		logger.Fatal().Err(err).Msg("Invlaid port number")
@@ -33,12 +29,12 @@ func main() {
 	}
 	database.MongoDatabaseConnection(
 		logger,
-		os.Getenv("MONGO_INITDB_ROOT_USERNAME"),
-		os.Getenv("MONGO_INITDB_ROOT_PASSWORD"),
+		os.Getenv("MONGO_USER"),
+		os.Getenv("MONGO_PASS"),
 		os.Getenv("MONGO_HOST"),
 		portInt)
 	if err != nil {
-	   logger.Fatal().Err(err).Msg("Failed to connect to MongoDB")
+		logger.Fatal().Err(err).Msg("Failed to connect to MongoDB")
 	}
 
 }

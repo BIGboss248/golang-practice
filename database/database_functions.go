@@ -1,7 +1,6 @@
 package database
 
 import (
-	"context"
 	"fmt"
 	"time"
 
@@ -39,28 +38,20 @@ func MongoDatabaseConnection(logger zerolog.Logger, username string, password st
 	defer func() {
 		logger.Debug().Str("FunctionName:", "DatabaseConnection").TimeDiff("Duration (ms)", time.Now(), DatabaseConnectionStartTime).Msg("DatabaseConnection function ended.")
 	}()
+	if username == "" || password == "" || host == "" || port == 0 {
+		err := fmt.Errorf("missing required parameters")
+		logger.Error().Err(err).Msg("Missing required parameters")
+		return nil, err
+	}
 	// Build MongoDB URI
 	uri := fmt.Sprintf("mongodb://%s:%s@%s:%d/", username, password, host, port)
 
-	// Define connection options
-	clientOptions := options.Client().ApplyURI(uri)
-
-	// Create context with timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	// Connect to MongoDB
-	client, err := mongo.Connect(clientOptions)
+	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
-		return nil, fmt.Errorf("failed to connect to MongoDB: %w", err)
+		logger.Error().Err(err).Msg("Failed to connect to MongoDB")
+		return nil, err
 	}
+	logger.Info().Msg("✅ Successfully connected to MongoDB")
 
-	// Ping to verify connection
-	if err := client.Ping(ctx, nil); err != nil {
-		return nil, fmt.Errorf("could not ping MongoDB: %w", err)
-	}
-
-	logger.Info().Msg("✅ Connected to MongoDB: " + username + "@" + host + ":" + fmt.Sprint(port))
 	return client, nil
-
 }
