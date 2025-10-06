@@ -13,7 +13,16 @@ import (
 
 // The function that will be executed
 func main() {
-	logger, err := clog.SetupLogger("app.log", zerolog.DebugLevel)
+	//! Be sure to check for empty string if the environment variable is not set
+	var LogLevel string = os.Getenv("Log_Level") // Read environment variable
+	zerologLevel := zerolog.InfoLevel
+	if LogLevel == "" {
+		zerologLevel = zerolog.InfoLevel
+	}
+	if LogLevel == "Debug" {
+		zerologLevel = zerolog.DebugLevel
+	}
+	logger, err := clog.SetupLogger("app.log", zerologLevel)
 	startTime := time.Now() // Record start time
 	if err != nil {
 		panic(err)

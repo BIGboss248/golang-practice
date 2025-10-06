@@ -6,8 +6,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME:  # mongodb username
-      MONGO_INITDB_ROOT_PASSWORD:  # mongodb password
+      MONGO_INITDB_ROOT_USERNAME: # mongodb username
+      MONGO_INITDB_ROOT_PASSWORD: # mongodb password
     volumes:
       - ./mongo-data:/data/db
     networks:
@@ -19,9 +19,9 @@ services:
     environment:
       MONGO_HOST: mongodb
       MONGO_PORT: 27017
-      MONGO_USER:  # mongodb username
-      MONGO_PASS:  # mongodb password
-
+      MONGO_USER: # mongodb username
+      MONGO_PASS: # mongodb password
+      Log_Level: Debug # Set to "Debug" for debug level logging, or leave empty for info level
 networks:
   my_network:
     driver: bridge
