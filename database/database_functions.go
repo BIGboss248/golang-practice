@@ -14,23 +14,29 @@ import (
 /*
 # MongoDatabaseConnection
 
-# Connect to mongo db and return the connection object
+Connect to mongo db and return the connection object
 
 # Packages
 
-go.mongodb.org/mongo-driver/v2/mongo: mongo driver
-go.mongodb.org/mongo-driver/v2/mongo/options: mongo driver options
+1. go.mongodb.org/mongo-driver/v2/mongo: mongo driver
+
+2. go.mongodb.org/mongo-driver/v2/mongo/options: mongo driver options
 
 # Parameters
 
-user: string - username.
-password: string - password.
-host: string - host url.
-port: string - port number.
+1. user: string - username.
+
+2. password: string - password.
+
+3. host: string - host url.
+
+4. port: string - port number.
 
 # Returns
 
-MongoDB connection object *mongo.Client
+1. *mongo.Client: connection object *mongo.Client
+
+2. error: error if any error occurs during connection else nil
 */
 func MongoDatabaseConnection(logger zerolog.Logger, username string, password string, host string, port int) (*mongo.Client, error) {
 	DatabaseConnectionStartTime := time.Now() // Record start time
