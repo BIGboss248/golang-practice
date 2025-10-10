@@ -43,7 +43,7 @@ func main() {
 		os.Getenv("MONGO_HOST"),
 		portInt)
 	if err != nil {
-		logger.Fatal().Err(err).Msg("Failed to connect to MongoDB")
+		logger.Fatal().Err(err).Msg("Failed to connect to MongoDB Shutting down the application")
 	}
-
+	
 }
