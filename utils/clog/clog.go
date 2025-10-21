@@ -46,6 +46,13 @@ const (
 	BgWhite   = "\033[47m"
 )
 
+var InfoLevel  zerolog.Level = zerolog.InfoLevel
+var WarningLevel  zerolog.Level = zerolog.WarnLevel
+var ErrorLevel  zerolog.Level = zerolog.ErrorLevel
+var DebugLevel  zerolog.Level = zerolog.DebugLevel
+
+
+
 /*
 SetupLogger initializes zerolog to write to both console and a file.
 */
