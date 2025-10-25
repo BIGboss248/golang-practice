@@ -9,12 +9,77 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-// Sample imports
+/*
+# BankAccount
+
+bank acount object represents a bank account that user adds it contains the following fields:
+
+# Fields
+ 1. AccountNumber string - account number.
+ 2. CardNumber string - card number.
+ 3. Name string - name of the account.
+ 4. Balance float64 - current balance of the account.
+ 5. Currency string - currency of the account.
+ 6. BaseAmount float64 - base amount of the account.
+ 7. Time time.Time - time when the account was created.
+ 8. Description string - description of the account.
+ 9. Categories []Category - category of the account.
+ 10. Tags []string - tags associated with the account.
+ 11. Transactions []Transaction - list of transactions associated with the account.
+*/
+type BankAccount struct {
+	AccountNumber string
+	CardNumber    string
+	Name          string
+	Balance       float64
+	Currency      string
+	BaseAmount    float64
+	Time          time.Time
+	Description   string
+	Categories    []Category
+	Tags          []string
+	Transactions  []Transaction
+}
+
+/*
+# Transaction
+
+Transaction object represents a transaction that user adds it contains the following fields:
+
+# Fields
+ 1. ID string - transaction id.
+ 2. Amount float64 - amount of the transaction.
+ 3. Time time.Time - time when the transaction was made.
+ 4. Description string - description of the transaction.
+*/
+type Transaction struct {
+	ID          string
+	Amount      float64
+	Time        time.Time
+	Description string
+}
+
+/*
+# Catagory
+
+Category object represents a category that user adds it contains the following fields:
+
+# Fields
+
+ 1. ID string - category id.
+ 2. Name string - name of the category.
+ 3. Description string - description of the category.
+*/
+type Category struct {
+	ID          string
+	Name        string
+	Description string
+}
 
 /*
 # MongoDatabaseConnection
 
-Connect to mongo db and return the connection object
+# Connect to mongo db and return the connection object
 
 # Packages
 
